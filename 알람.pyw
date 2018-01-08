@@ -1,4 +1,4 @@
-#!/c/Users/TG/Anaconda3/python
+#!/usr/bin/python3
 
 import time
 from tkinter import Tk, ttk#, LEFT , Frame, Label, Entry

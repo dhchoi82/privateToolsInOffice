@@ -1,4 +1,4 @@
-#!/c/Users/TG/Anaconda3/python
+#!/usr/bin/python3
 
 from tkinter import Tk, Button, StringVar, LEFT
 
