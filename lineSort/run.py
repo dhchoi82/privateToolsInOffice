@@ -1,4 +1,11 @@
+#!/usr/bin/python3
+
 import codecs
+import os
+import sys
+
+if os.path.exists("raw.txt")==False:
+    sys.exit("You need raw.txt.")
 
 text = ""
 
