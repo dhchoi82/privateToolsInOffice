@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
-from os.path import isfile
-from init import initDB
+from controlDB import initDB
 from manageSort import MainFrame as MngSort
 from manageSource import MainFrame as AddSource
 from tkinter import Tk, Toplevel, Frame, Entry, Button, Text, StringVar, BOTH
@@ -52,8 +51,7 @@ class InputData(Frame):
         pass
 
 if __name__ == "__main__":
-    if not isfile("data.sqlite"): # 데이터베이스 존재 확인 후 없으면 새로 생성
-        initDB()
+    initDB()
     
     root = MainWindow()
 
