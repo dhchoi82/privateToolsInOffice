@@ -2,3 +2,4 @@ lineSort/sort.txt
 lineSort/raw.txt
 webLink.html
 dataPiler/data.sqlite
+dataPiler/__pycache__/*
