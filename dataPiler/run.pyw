@@ -6,11 +6,11 @@ from manageSource import MainFrame as AddSource
 from tkinter import Tk, Toplevel, Frame, Entry, Button, Text, StringVar, BOTH
 from tkinter.ttk import Combobox
 
-class MainWindow(Tk):
+class MainWindow(Tk): # 메인 창 설정
     def __init__(self):
         super().__init__()
         self.title("자료 정리")
-        InputData(self).pack(fill=BOTH)
+        InputData(self).pack(fill=BOTH) # 메인 창에 입력 폼 추가
 
 class InputData(Frame):
     def __init__(self, parent):
