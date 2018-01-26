@@ -1,8 +1,7 @@
+*__pycache__
+*data.sqlite
 lineSort/sort.txt
 lineSort/raw.txt
 webLink.html
-dataPiler/data.sqlite
-dataPiler/__pycache__/*
-plantNameSummary/data.sqlite
-plantNameSummary/__pycache__
 plantNameSummary/resultList.csv
+plantNameSummary/CSVs
