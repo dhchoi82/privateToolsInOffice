@@ -1,4 +1,4 @@
-SELECT familyList.scientific AS familyName,
+SELECT DISTINCT familyList.scientific AS familyName,
     familyList.korean AS familyKorean,
     genusList.name AS genusName,
     specificEpithet,
@@ -12,4 +12,6 @@ SELECT familyList.scientific AS familyName,
         LEFT JOIN genusList ON genusList.id=speciesList.genusId
         LEFT JOIN familyList ON familyList.id=genusList.familyId
         LEFT JOIN intraSpecificClass ON intraSpecificClass.id=speciesList.intraspecificClassId
-    ORDER BY familyList.orderNo ASC, genusList.name ASC;
+    ORDER BY familyList.orderNo ASC, genusList.name ASC,
+        specificEpithet ASC, intraSpecificClass.classText ASC,
+        intraspecificName ASC;
