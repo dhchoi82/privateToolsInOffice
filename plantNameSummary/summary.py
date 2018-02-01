@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import csv, codecs
-from controlDB import getList
+from controlDB import setInput, getList
 
 ## 함수: makeCSV, 입력값: (종 리스트,출력파일 이름), 반환값: csv 파일 내용 문자열
 def makeCSV(fetchedList,fileName='resultList.csv'):
@@ -39,6 +39,7 @@ def makeCounts(summaryList):
         ))
 
 if __name__ == '__main__':
+    setInput()
     summaryList = getList()
     print(makeCSV(summaryList))
     makeCounts(summaryList)
