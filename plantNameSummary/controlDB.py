@@ -9,7 +9,7 @@ dbFile = 'data.sqlite'
 # 현재 디렉토리에서 DB파일 존재 확인 후 없으면 새로 생성
 def initDB():
     if not isfile(dbFile):
-        with sqlite3.connect(dbFile) as con, open('init.sql','r') as f:
+        with sqlite3.connect(dbFile) as con, open('sql/init.sql','r') as f:
             sql = f.read()
             con.executescript(sql)
 
@@ -26,7 +26,7 @@ def setInput():
         with open(csvFilename,'w') as f:
             f.write('name\nkoreanName1\nkoreanName2')
     
-    with sqlite3.connect(dbFile) as con, open(csvFilename,'r',encoding="utf-8") as inputFile, open('refresh.sql','r') as sqlFile:
+    with sqlite3.connect(dbFile) as con, open(csvFilename,'r',encoding="utf-8") as inputFile, open('sql/refresh.sql','r') as sqlFile:
         
         # (2)
         sql = sqlFile.read()
@@ -42,7 +42,7 @@ def setInput():
 # DB에서 inputList 테이블의 name 값이 speciesList 테이블의 korean에 존재하면
 # 해당 종의 정보 리스트를 반환
 def getList():
-    with sqlite3.connect(dbFile) as con, open('getList.sql','r') as f:
+    with sqlite3.connect(dbFile) as con, open('sql/getList.sql','r') as f:
         sql = f.read()
         cur = con.cursor()
         cur.execute(sql)
