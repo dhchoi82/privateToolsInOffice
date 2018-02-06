@@ -24,7 +24,7 @@ def setInput():
     # (1)
     if not isfile(csvFilename):
         with open(csvFilename,'w') as f:
-            f.write('name\nkoreanName1\nkoreanName2')
+            f.write('unitNum,releveNum,name,cover\n1,1,koreanName1,3\n1,2,koreanName2,5')
     
     with sqlite3.connect(dbFile) as con, open(csvFilename,'r',encoding="utf-8") as inputFile, open('sql/refresh.sql','r') as sqlFile:
         
@@ -35,7 +35,7 @@ def setInput():
         # (3)
         cur = con.cursor()
         inputDict = csv.DictReader(inputFile, delimiter=",")
-        sql = 'INSERT INTO inputList(name) VALUES (:name)'
+        sql = 'INSERT INTO inputList(unitNum, releveNum, name, cover) VALUES (:unitNum, :releveNum, :name, :cover)'
         cur.executemany(sql, inputDict)
 
 ## 함수: getList, 입력값: 없음, 반환값: 리스트

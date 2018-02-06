@@ -27,8 +27,11 @@ CREATE TABLE IF NOT EXISTS `speciesList` (
     FOREIGN KEY(`intraspecificClassId`) REFERENCES `intraSpecificClass`(`id`),
     FOREIGN KEY(`genusId`) REFERENCES `genusList`(`id`)
 );
-CREATE TABLE IF NOT EXISTS `inputList` (
+CREATE TABLE `inputList` (
     `id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    `name`  TEXT NOT NULL DEFAULT 'None'
-);
+    `unitNum`   INTEGER,
+    `releveNum` INTEGER,
+    `name`  TEXT NOT NULL DEFAULT 'None',
+    `cover` REAL
+)
 COMMIT;
