@@ -35,7 +35,8 @@ def setInput():
         # (3)
         cur = con.cursor()
         inputDict = csv.DictReader(inputFile, delimiter=",")
-        sql = 'INSERT INTO inputList(unitNum, releveNum, name, cover) VALUES (:unitNum, :releveNum, :name, :cover)'
+        sql = '''INSERT INTO inputList(unitNum, releveNum, name, cover)
+            VALUES (:unitNum, :releveNum, :name, :cover)'''
         cur.executemany(sql, inputDict)
 
 ## 함수: getList, 입력값: 없음, 반환값: 리스트
@@ -47,6 +48,43 @@ def getList():
         cur = con.cursor()
         cur.execute(sql)
         return cur.fetchall()
+
+## 함수: makeUnitNCD, 입력값: unit 번호, 반환값: [종명, NCD] 리스트
+# DB에서 inputList 테이블의 unitNum 값이 입력된 unitNumber와 같은 레코드를 찾아
+# `NCD = [unit 내 해당 종 (0포함) 피도의 평균] * [unit 내 해당 종 빈도]`를 계산하여
+# 종별 NCD 값의 리스트를 반환
+def makeUnitNCD(unitNumber):
+    with sqlite3.connect(dbFile) as con:
+        sql = '''SELECT COUNT(*)
+            FROM (SELECT DISTINCT releveNum
+                FROM inputList WHERE unitNum = ?
+            )''' # 해당 unit의 조사구 개수를 구함
+        cur = con.cursor()
+        cur.execute(sql, (unitNumber,))
+        releveCount = cur.fetchone()
+        
+        sql = 'SELECT name, SUM(cover) * COUNT(*) / ? FROM inputList WHERE unitNum = ? GROUP BY name' # 해당 unit의 NCD를 계산
+        cur.execute(sql, (releveCount[0]**2, unitNumber))
+        return cur.fetchall()
+
+## 함수: makeRncdList, 입력값: 없음, 반환값: [unit 번호, [종명, NCD, rNCD]] 리스트
+# DB에서 inputList 테이블의 unitNum 값 종류를 모두 찾아
+# `rNCD = NCD / NCDmax`를 계산하여
+# unit 별 NCD, rNCD 값의 리스트를 반환
+def makeRncdList():
+    rncdList = []
+    
+    with sqlite3.connect(dbFile) as con:
+        sql = 'SELECT DISTINCT unitNum FROM inputList' # unit 번호 목록 생성
+        cur = con.cursor()
+        
+        for unit in cur.execute(sql):
+            ncds = makeUnitNCD(unit[0]) # 해당 unit의 NCD 리스트 생성
+            ncdMax = max([x[1] for x in ncds]) # NCD 최댓값 계산
+            rncdRow = [(x[0], x[1], x[1]/ncdMax*100) for x in ncds] # rNCD 포함 리스트 생성
+            rncdList.append([unit[0],rncdRow]) # 해당 unit에서 구한 리스트 추가
+    
+    return rncdList
 
 if __name__ == "__main__":
     initDB()

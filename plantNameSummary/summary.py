@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
 import csv, codecs
-from controlDB import setInput, getList
+from controlDB import setInput, getList, makeRncdList
 
 ## 함수: makeCSV, 입력값: (종 리스트,출력파일 이름), 반환값: csv 파일 내용 문자열
-def makeCSV(fetchedList,fileName='resultList.csv'):
+def makeSpeciesCSV(fetchedList,fileName='resultList(species).csv'):
     with codecs.open(fileName, mode='w', encoding='utf-8') as csvfile:
         head = ['familyName','familyKorean','genusName','specificEpithet',
             'intraClass','intraspecificName','specificKorean','authorSpecific',
@@ -38,9 +38,30 @@ def makeCounts(summaryList):
         len(family), len(genus), spNum, subspNum, varNum, forNum, taxaNum
         ))
 
+def showRncdList():
+    for unitNumber, unitList in makeRncdList():
+        print(unitNumber)
+        for species in unitList:
+            print(species)
+        input()
+
+def makeRncdCSV(fileName='resultList(rNCD).csv'):
+    with codecs.open(fileName, mode='w', encoding='utf-8') as csvfile:
+        head = ['unitNumber','speciesName','NCD','rNCD']
+        writerObject = csv.writer(csvfile)
+        
+        writerObject.writerow(head)
+        for unitNumber, unitList in makeRncdList():
+            for species in unitList: 
+                writerObject.writerow([unitNumber,]+list(species))
+    
+    with codecs.open(fileName, mode='r', encoding='utf-8') as csvfile:
+        return csvfile.read()
+
 if __name__ == '__main__':
     setInput()
     summaryList = getList()
-    print(makeCSV(summaryList))
+    print(makeSpeciesCSV(summaryList))
     makeCounts(summaryList)
-
+    showRncdList()
+    print(makeRncdCSV())
