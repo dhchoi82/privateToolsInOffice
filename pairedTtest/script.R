@@ -1,0 +1,5 @@
+data = read.csv('inputList.csv')
+summary(data)
+attach(data)
+t.test(groupA, groupB, paired=TRUE)
+detach(data)

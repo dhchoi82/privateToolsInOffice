@@ -5,6 +5,7 @@ lineSort/raw.txt
 webLink.html
 plantNameSummary/resultList*
 plantNameSummary/CSVs
-*zNex~*
-plantNameSummary/inputList.csv
+*zNex~*
+*inputList.csv
 *.~lock.*
+*cmdOutput*
