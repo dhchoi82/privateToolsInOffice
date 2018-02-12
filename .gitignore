@@ -1,11 +1,11 @@
 *__pycache__
 *data.sqlite
-lineSort/sort.txt
-lineSort/raw.txt
-webLink.html
-plantNameSummary/resultList*
-plantNameSummary/CSVs
 *zNex~*
 *inputList.csv
 *.~lock.*
 *cmdOutput*
+webLink.html
+lineSort/sort.txt
+lineSort/raw.txt
+plantReleveSummary/resultList*
+plantReleveSummary/CSVs
