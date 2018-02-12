@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import csv, codecs
-from controlDB import setInput, getList, makeRncdList
+from controlDB import setInput, getList, makeRncdList, makeShannonIndexList
 
 ## 함수: makeCSV, 입력값: (종 리스트,출력파일 이름), 반환값: csv 파일 내용 문자열
 def makeSpeciesCSV(fetchedList,fileName='resultList(species).csv'):
@@ -58,10 +58,22 @@ def makeRncdCSV(fileName='resultList(rNCD).csv'):
     with codecs.open(fileName, mode='r', encoding='utf-8') as csvfile:
         return csvfile.read()
 
+def makeShannonIndexCSV(fetchedList,fileName='resultList(ShannonIndex).csv'):
+    with codecs.open(fileName, mode='w', encoding='utf-8') as csvfile:
+        head = ['releve','ShannonIndex']
+        writerObject = csv.writer(csvfile)
+        
+        writerObject.writerow(head)
+        writerObject.writerows(fetchedList)
+    
+    with codecs.open(fileName, mode='r', encoding='utf-8') as csvfile:
+        return csvfile.read()
+
 if __name__ == '__main__':
     setInput()
     summaryList = getList()
     print(makeSpeciesCSV(summaryList))
     makeCounts(summaryList)
-    showRncdList()
-    print(makeRncdCSV())
+    #showRncdList()
+    input(makeRncdCSV())
+    input(makeShannonIndexCSV(makeShannonIndexList()))

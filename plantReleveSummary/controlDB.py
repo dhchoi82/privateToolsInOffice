@@ -2,6 +2,7 @@
 
 import sqlite3, csv
 from os.path import isfile
+from math import log
 
 dbFile = 'data.sqlite'
 
@@ -86,6 +87,28 @@ def makeRncdList():
     
     return rncdList
 
+def elementShannonIndex(cover_i, sum_cover):
+    p_i = cover_i / sum_cover
+    element = p_i * log(p_i)
+    return element
+
+def makeShannonIndexList():
+    with sqlite3.connect(dbFile) as con:
+        con.create_function("ElementH", 2, elementShannonIndex)
+        sql = '''SELECT releveNum, -SUM(Hi)
+            FROM (SELECT id, releveNum, ElementH(cover, coverSum) AS Hi
+            FROM inputList LEFT JOIN (
+                SELECT releveNum AS releveId, SUM(cover) AS coverSum
+                FROM inputList GROUP BY releveNum
+            ) ON inputList.releveNum=releveId
+        ) GROUP BY releveNum
+        '''
+        cur = con.cursor()
+        cur.execute(sql)
+        
+        return cur.fetchall()
+
 if __name__ == "__main__":
     initDB()
     setInput()
+    print(makeShannonIndexList())
